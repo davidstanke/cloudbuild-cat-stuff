@@ -1,0 +1,25 @@
+steps:
+
+# This step will 'succeed', and will ERASE THE CONTENTS of base1.txt
+- name: 'alpine'
+  entrypoint: 'sh'
+  args:
+  - '-c'
+  - |
+    cat foo.txt > base1.txt || echo 'file not found' # file doesn't exist
+    echo "CONTENTS of BASE1:"
+    cat base1.txt
+
+# This step will 'succeed', and will preserve base2.txt
+- name: 'alpine'
+  entrypoint: 'sh'
+  args:
+  - '-c'
+  - |
+    if [ -f foo.txt ]; then
+      cat foo.txt >> base2.txt
+    else
+      echo 'foo.txt does not exist'
+    fi
+    echo "CONTENTS of BASE2:"
+    cat base2.txt
